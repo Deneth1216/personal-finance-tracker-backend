@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping; // Add this import
 
 import jakarta.validation.Valid; // Placeholder for when validation is added
 
@@ -68,4 +69,12 @@ public class AuthController {
     // A simple /logout endpoint can be configured via SecurityFilterChain more easily.
     // If custom logout logic is needed (e.g., invalidating a token), it can be added here.
     // For session-based auth, Spring Security's logout handler is usually sufficient.
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> helloAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Spring Security will ensure authentication is not null and is authenticated
+        // if the endpoint is correctly secured.
+        return ResponseEntity.ok("Hello, " + authentication.getName() + "!");
+    }
 }
